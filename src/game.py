@@ -25,7 +25,7 @@ def print_status(game_grid):
 
 command = "a"
 # Loopa tills användaren trycker Q eller X.
-while not command.casefold() in ["q", "x"]:
+while command.casefold() not in ["q", "x"]:
     print_status(g)
 
     command = input("Use WASD to move, Q/X to quit. ")
