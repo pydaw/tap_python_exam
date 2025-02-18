@@ -1,3 +1,4 @@
+from src.grid import Grid
 class Player:
     marker = "@"
 
@@ -13,8 +14,9 @@ class Player:
         self.pos_x += dx
         self.pos_y += dy
 
-    def can_move(self, x, y, grid):
-        return True
-        #TODO: returnera True om det inte står något i vägen
-
+    def can_move(self, x, y, grid:Grid):
+        if grid.is_wall(x, y):
+            return False
+        else:
+            return True
 

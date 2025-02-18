@@ -68,3 +68,8 @@ class Grid:
         """Returnerar True om det inte finns något på aktuell ruta"""
         return self.get(x, y) == self.empty
 
+
+    def is_wall(self, x, y):
+        """Returnerar True om det finns vägg på aktuell ruta"""
+        return self.get(x, y) == self.wall
+
