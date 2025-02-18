@@ -2,9 +2,10 @@ from .grid import Grid
 from .player import Player
 from . import pickups
 
+player_middle_pos_x = int(Grid.width/2)
+player_middle_pos_y = int(Grid.height/2)
 
-
-player = Player(2, 1)
+player = Player(player_middle_pos_x, player_middle_pos_y)
 score = 0
 inventory = []
 
