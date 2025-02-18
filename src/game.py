@@ -32,7 +32,7 @@ while command.casefold() not in ["q", "x"]:
     command = command.casefold()[:1]
 
     # Command = Move player
-    if command.casefold() in "wasd" and len(command) > 0:
+    if command.casefold() in "wasd" and len(command) == 1:
         command_to_movement = {
             "w": (0, -1),  # Move up
             "a": (-1, 0),  # Move left
@@ -42,8 +42,6 @@ while command.casefold() not in ["q", "x"]:
         move_x, move_y = command_to_movement[command]
     
         maybe_item = None
-        print(f"x: {player.pos_x + move_x}, y: {player.pos_y + move_y}")
-        print(f"can move: {player.can_move(player.pos_x + move_x, player.pos_y + move_y, g)}")
         if player.can_move(player.pos_x + move_x, player.pos_y + move_y, g):
             maybe_item = g.get(player.pos_x + move_x, player.pos_y + move_y)
             player.move(move_x, move_y)
@@ -52,6 +50,7 @@ while command.casefold() not in ["q", "x"]:
             # we found something
             score += maybe_item.value
             print(f"You found a {maybe_item.name}, +{maybe_item.value} points.")
+            inventory.append(maybe_item)
             #g.set(player.pos_x, player.pos_y, g.empty)
             g.clear(player.pos_x, player.pos_y)
 
