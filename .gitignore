@@ -1,3 +1,11 @@
+# Environment
+/.venv
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# PyCharm
 /.idea/exam_template.iml
 /.idea/modules.xml
 /.idea/inspectionProfiles/profiles_settings.xml
