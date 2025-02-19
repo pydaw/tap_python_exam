@@ -53,6 +53,9 @@ while command.casefold() not in ["q", "x"]:
             inventory.append(maybe_item)
             #g.set(player.pos_x, player.pos_y, g.empty)
             g.clear(player.pos_x, player.pos_y)
+        else:
+            # The floor is lava - för varje steg man går ska man tappa 1 poäng.
+            score -= 1
     
     # Command = Show inventory
     elif command=="i":
