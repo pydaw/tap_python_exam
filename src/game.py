@@ -55,6 +55,8 @@ while command.casefold() not in ["q", "x"]:
             g.clear(player.pos_x, player.pos_y)
         else:
             # The floor is lava - för varje steg man går ska man tappa 1 poäng.
+            # Tyckte det var lite roligare att man skulle behålla alla poäng för pickup
+            # där av är den inuti if-satsen
             score -= 1
     
     # Command = Show inventory
