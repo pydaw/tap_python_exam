@@ -1,6 +1,6 @@
 # Skapar väggar i spelplanen
 # slumpa ut vilken spelplan som skall användas
-player_fields = [
+play_fields = [
     [
         # Spelplan 1
         { "start": {"x":5 ,  "y":1},  "end": {"x":5,  "y":6} },

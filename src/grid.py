@@ -1,5 +1,5 @@
 import random
-from .player_fields import player_fields
+from .play_fields import play_fields
 class Grid:
     """Representerar spelplanen. Du kan ändra standardstorleken och tecknen för olika rutor. """
     width = 36
@@ -36,7 +36,7 @@ class Grid:
             row = self.data[y]
             for x in range(len(row)):
                 if x == self.player.pos_x and y == self.player.pos_y:
-                    xs += "@"
+                    xs += self.player.marker
                 else:
                     xs += str(row[x])
             xs += "\n"
@@ -71,17 +71,11 @@ class Grid:
             self.set(j, 0, self.wall)
             self.set(j, self.height - 1, self.wall)
 
-        # Skapa interna väggar inuti spelplanen genom att slumpa ut en spelplan
-        internal_walls = random.choice(player_fields)
+        # Hämta de interna väggarna genom att slumpa ut en spelplan
+        internal_walls = random.choice(play_fields)
 
         # Skapa de interna väggarna
         for wall in internal_walls:
-            # x = wall["start"]["x"] 
-            # y = wall["start"]["y"]
-            # x_length = wall["end"]["x"] - wall["start"]["x"]
-            # y_length = wall["end"]["y"] - wall["start"]["y"]
-            # print(f"x:{x}, y:{y}, xl:{x_length}, yl:{y_length}")
-
             self.__make_internal_wall(
                 x = wall["start"]["x"], 
                 y = wall["start"]["y"], 

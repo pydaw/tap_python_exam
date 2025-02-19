@@ -12,7 +12,7 @@ class Item:
 
 pickups = [Item("carrot"), Item("apple", value=20), Item("strawberry", value=20), Item("cherry", value=20), Item("watermelon", value=20), Item("radish"), Item("cucumber"), Item("meatball")]
 traps = [Item("Foothold trap",value=-10, symbol="."), Item("Body gripping trap",value=-10, symbol="."), Item("Deadfall trap",value=-10, symbol="."), Item("Glue trap",value=-10, symbol=".")]
-
+showels = [Item("showel",value=0, symbol="♠")]
 
 def randomize(grid):
     for item in pickups:
@@ -22,7 +22,7 @@ def randomize(grid):
             y = grid.get_random_y()
             if grid.is_empty(x, y):
                 grid.set(x, y, item)
-                break  # avbryt while-loopen, fortsätt med nästa varv i for-loopen
+                break
     
     for item in traps:
         while True:
@@ -31,5 +31,14 @@ def randomize(grid):
             y = grid.get_random_y()
             if grid.is_empty(x, y):
                 grid.set(x, y, item)
-                break  # avbryt while-loopen, fortsätt med nästa varv i for-loopen
+                break
+    
+    for item in showels:
+        while True:
+            # slumpa en position tills vi hittar en som är ledig
+            x = grid.get_random_x()
+            y = grid.get_random_y()
+            if grid.is_empty(x, y):
+                grid.set(x, y, item)
+                break
 

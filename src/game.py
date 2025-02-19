@@ -40,23 +40,38 @@ while command.casefold() not in ["q", "x"]:
             "d": (1, 0),   # Move right
         }
         move_x, move_y = command_to_movement[command]
-    
+        
+        # Kontrollera om spade finns i intentory listan
+        showel = None
+        for item in inventory:
+            if item.name == "showel":
+                showel = item
+        
+        # Kontrollera om spelaren kan flytta sig till punkten
         maybe_item = None
         if player.can_move(player.pos_x + move_x, player.pos_y + move_y, g):
             maybe_item = g.get(player.pos_x + move_x, player.pos_y + move_y)
             player.move(move_x, move_y)
+        
+        # Möjligt att gå genom en vägg om man har en spade i inventory
+        elif showel is not None:
+            print("You have digged a hole through the wall!")
+            inventory.remove(showel)
+            player.move(move_x, move_y)
+            g.clear(player.pos_x, player.pos_y)
 
+
+        # Konrollera om spelarens positionen har ett item att plocka upp
         if isinstance(maybe_item, pickups.Item):
-            # we found something
             score += maybe_item.value
             
-            # Pickup
+            # Pickup item eller spade
             if maybe_item.value >= 0:
                 print(f"You found a {maybe_item.name}, +{maybe_item.value} points.")
                 inventory.append(maybe_item)
                 g.clear(player.pos_x, player.pos_y)
             
-            # Trap
+            # Gömd fälla
             else:
                 print(f"You found a {maybe_item.name}, {maybe_item.value} points.")
         
