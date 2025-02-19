@@ -49,10 +49,17 @@ while command.casefold() not in ["q", "x"]:
         if isinstance(maybe_item, pickups.Item):
             # we found something
             score += maybe_item.value
-            print(f"You found a {maybe_item.name}, +{maybe_item.value} points.")
-            inventory.append(maybe_item)
-            #g.set(player.pos_x, player.pos_y, g.empty)
-            g.clear(player.pos_x, player.pos_y)
+            
+            # Pickup
+            if maybe_item.value >= 0:
+                print(f"You found a {maybe_item.name}, +{maybe_item.value} points.")
+                inventory.append(maybe_item)
+                g.clear(player.pos_x, player.pos_y)
+            
+            # Trap
+            else:
+                print(f"You found a {maybe_item.name}, {maybe_item.value} points.")
+        
         else:
             # The floor is lava - för varje steg man går ska man tappa 1 poäng.
             # Tyckte det var lite roligare att man skulle behålla alla poäng för pickup
