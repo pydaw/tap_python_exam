@@ -32,7 +32,7 @@ while command.casefold() not in ["q", "x"]:
     command = command.casefold()[:1]
 
     # Command = Move player
-    if command.casefold() in "wasd" and len(command) == 1:
+    if command in "wasd" and len(command) == 1:
         command_to_movement = {
             "w": (0, -1),  # Move up
             "a": (-1, 0),  # Move left
@@ -53,6 +53,15 @@ while command.casefold() not in ["q", "x"]:
             inventory.append(maybe_item)
             #g.set(player.pos_x, player.pos_y, g.empty)
             g.clear(player.pos_x, player.pos_y)
+    
+    # Command = Show inventory
+    elif command=="i":
+        if len(inventory) > 0:
+            print("Items found:")
+            for item in inventory:
+                print(f" - {item.name}")
+        else:
+            print("No items found yet!") 
 
 
 # Hit kommer vi när while-loopen slutar
