@@ -1,5 +1,5 @@
 import random
-
+from .player_fields import player_fields
 class Grid:
     """Representerar spelplanen. Du kan ändra standardstorleken och tecknen för olika rutor. """
     width = 36
@@ -42,9 +42,27 @@ class Grid:
             xs += "\n"
         return xs
 
+    def __make_internal_wall(self, x:int, y:int, x_length=1, y_length=1):
+        """Privat metod, skapar väggar i spelplanen
+        :param: x - Start posiston av väggen i x-led
+        :param: y - Start posiston av väggen i y-led
+        :param: x_length - Längd på vägg i x-led
+        :param: y_length - Längd på vägg i y-led
+        """
+
+        # x-led
+        for i in range(x, x + x_length+1):
+            self.set(i, y, self.wall)
+
+        # y-led
+        for j in range(y, y + y_length+1):
+            self.set(x, j, self.wall)
+
 
     def make_walls(self):
-        """Skapa väggar runt hela spelplanen"""
+        """Skapa väggar runt hela spelplanen samt på spelplanen"""
+        
+        # Skapar väggar runt om spelplanen
         for i in range(self.height):
             self.set(0, i, self.wall)
             self.set(self.width - 1, i, self.wall)
@@ -52,6 +70,24 @@ class Grid:
         for j in range(1, self.width - 1):
             self.set(j, 0, self.wall)
             self.set(j, self.height - 1, self.wall)
+
+        # Skapa interna väggar inuti spelplanen genom att slumpa ut en spelplan
+        internal_walls = random.choice(player_fields)
+
+        # Skapa de interna väggarna
+        for wall in internal_walls:
+            # x = wall["start"]["x"] 
+            # y = wall["start"]["y"]
+            # x_length = wall["end"]["x"] - wall["start"]["x"]
+            # y_length = wall["end"]["y"] - wall["start"]["y"]
+            # print(f"x:{x}, y:{y}, xl:{x_length}, yl:{y_length}")
+
+            self.__make_internal_wall(
+                x = wall["start"]["x"], 
+                y = wall["start"]["y"], 
+                x_length = wall["end"]["x"] - wall["start"]["x"],
+                y_length = wall["end"]["y"] - wall["start"]["y"]
+            )
 
 
     # Används i filen pickups.py
