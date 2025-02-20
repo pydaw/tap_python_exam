@@ -31,8 +31,16 @@ def check_inventory(item_name:str):
 
 
 command = "a"
+loop = 0
 # Loopa tills användaren trycker Q eller X.
 while command.casefold() not in ["q", "x"]:
+    
+    # Bördig jord - Lägger till en frukt/grönsak var 25:e drag
+    loop += 1
+    print(f"loop: {loop}")
+    if loop%25 == 0:
+        pickups.add_random_pickup(g)
+
     print_status(g)
 
     command = input("Use WASD to move, Q/X to quit. ")
@@ -80,7 +88,6 @@ while command.casefold() not in ["q", "x"]:
                 else:
                     print(f"You found a {maybe_item.name}. But it is locked!")
                     
-        
             # Pickup item, spade eller nyckel
             elif maybe_item.value >= 0:
                 print(f"You found a {maybe_item.name}, +{maybe_item.value} points.")
@@ -93,8 +100,8 @@ while command.casefold() not in ["q", "x"]:
         
         else:
             # The floor is lava - för varje steg man går ska man tappa 1 poäng.
-            # Tyckte det var lite roligare att man skulle behålla alla poäng för pickup
-            # där av är den inuti denna if-satsen
+            # Tyckte det var lite roligare att man skulle behålla alla poäng för den item som man plockat upp,
+            # där av är den inuti denna else-satsen
             score -= 1
     
     # Command = Show inventory

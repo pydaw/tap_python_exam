@@ -1,4 +1,5 @@
-from random import randint
+from random import randint, choice
+
 from .grid import Grid
 
 class Item:
@@ -34,6 +35,10 @@ def add_items_to_grid(items:list, grid:Grid):
                 grid.set(x, y, item)
                 break
 
+
+def add_random_pickup(grid):
+    item = choice(pickups)
+    add_items_to_grid([item], grid)
 
 def randomize(grid):
     add_items_to_grid(pickups, grid)
