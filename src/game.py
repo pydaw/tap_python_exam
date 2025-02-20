@@ -37,7 +37,6 @@ while command.casefold() not in ["q", "x"]:
     
     # Bördig jord - Lägger till en frukt/grönsak var 25:e drag
     loop += 1
-    print(f"loop: {loop}")
     if loop%25 == 0:
         pickups.add_random_pickup(g)
 
@@ -77,8 +76,27 @@ while command.casefold() not in ["q", "x"]:
         if isinstance(maybe_item, pickups.Item):
             score += maybe_item.value
             
+            # Exit när alla ursprungliga saker är hämtade 
+            if maybe_item.name == "exit":
+                # Utgå från att alla items är hittade (kommer bli False om något item saknas)
+                all_original_items_picked_up = True
+
+                # Kontrollera att saker är i inventory listan
+                for item_original in pickups.pickups: 
+                    if all_original_items_picked_up:  # Loopa inte om item inte finns i inventory-lisan 
+                        for item_inventory in inventory:
+                            all_original_items_picked_up = item_inventory == item_original
+                            if all_original_items_picked_up:  # Hoppa ur sista loopen om man hittat item i listan 
+                                break
+                
+                if all_original_items_picked_up:
+                    print("Exit granted!")
+                    break
+                else:
+                    print(f"You need more inventories to exit.")
+
             # Kista (går att öppna med nyckel)
-            if maybe_item.name == "chest":
+            elif maybe_item.name == "chest":
                 key = check_inventory("key")
                 if key:
                     print(f"You found a chest and could open it, +{maybe_item.value} points.")

@@ -24,6 +24,7 @@ number_of_chests = randint(1,3)
 chests = [chest_item] * number_of_chests
 keys = [key_item] * number_of_chests
 
+exit = [Item("exit",value=0, symbol="E")]
 
 def add_items_to_grid(items:list, grid:Grid):
     for item in items:
@@ -46,3 +47,4 @@ def randomize(grid):
     add_items_to_grid(shovels, grid)
     add_items_to_grid(chests, grid)
     add_items_to_grid(keys, grid)
+    add_items_to_grid(exit, grid)
