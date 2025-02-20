@@ -15,7 +15,7 @@ class Item:
 pickups = [Item("carrot"), Item("apple", value=20), Item("strawberry", value=20), Item("cherry", value=20), Item("watermelon", value=20), Item("radish"), Item("cucumber"), Item("meatball")]
 traps = [Item("Foothold trap",value=-10, symbol="."), Item("Body gripping trap",value=-10, symbol="."), Item("Deadfall trap",value=-10, symbol="."), Item("Glue trap",value=-10, symbol=".")]
 
-showels = [Item("showel",value=0, symbol="♠")]
+shovels = [Item("shovel",value=0, symbol="♠")]
 
 chest_item = Item("chest", value=100, symbol="□")
 key_item = Item("key", value=0, symbol="¬")
@@ -38,6 +38,6 @@ def add_items_to_grid(items:list, grid:Grid):
 def randomize(grid):
     add_items_to_grid(pickups, grid)
     add_items_to_grid(traps, grid)
-    add_items_to_grid(showels, grid)
+    add_items_to_grid(shovels, grid)
     add_items_to_grid(chests, grid)
     add_items_to_grid(keys, grid)

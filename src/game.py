@@ -49,7 +49,7 @@ while command.casefold() not in ["q", "x"]:
         move_x, move_y = command_to_movement[command]
         
         # Kontrollera om spade finns i intentory listan
-        showel = check_inventory("showel")
+        shovel = check_inventory("shovel")
         
         # Kontrollera om spelaren kan flytta sig till punkten
         maybe_item = None
@@ -58,9 +58,9 @@ while command.casefold() not in ["q", "x"]:
             player.move(move_x, move_y)
         
         # Möjligt att gå genom en vägg om man har en spade i inventory
-        elif showel:
+        elif shovel:
             print("You have digged a hole through the wall!")
-            inventory.remove(showel)
+            inventory.remove(shovel)
             player.move(move_x, move_y)
             g.clear(player.pos_x, player.pos_y)
 
