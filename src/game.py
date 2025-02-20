@@ -23,6 +23,13 @@ def print_status(game_grid):
     print(game_grid)
 
 
+def check_inventory(item_name:str):
+    for item in inventory:
+        if item.name == item_name:
+            return item
+    return None
+
+
 command = "a"
 # Loopa tills användaren trycker Q eller X.
 while command.casefold() not in ["q", "x"]:
@@ -42,10 +49,7 @@ while command.casefold() not in ["q", "x"]:
         move_x, move_y = command_to_movement[command]
         
         # Kontrollera om spade finns i intentory listan
-        showel = None
-        for item in inventory:
-            if item.name == "showel":
-                showel = item
+        showel = check_inventory("showel")
         
         # Kontrollera om spelaren kan flytta sig till punkten
         maybe_item = None
@@ -54,7 +58,7 @@ while command.casefold() not in ["q", "x"]:
             player.move(move_x, move_y)
         
         # Möjligt att gå genom en vägg om man har en spade i inventory
-        elif showel is not None:
+        elif showel:
             print("You have digged a hole through the wall!")
             inventory.remove(showel)
             player.move(move_x, move_y)
@@ -65,8 +69,20 @@ while command.casefold() not in ["q", "x"]:
         if isinstance(maybe_item, pickups.Item):
             score += maybe_item.value
             
-            # Pickup item eller spade
-            if maybe_item.value >= 0:
+            # Kista (går att öppna med nyckel)
+            if maybe_item.name == "chest":
+                key = check_inventory("key")
+                if key:
+                    print(f"You found a chest and could open it, +{maybe_item.value} points.")
+                    inventory.append(maybe_item)
+                    inventory.remove(key)
+                    g.clear(player.pos_x, player.pos_y)
+                else:
+                    print(f"You found a {maybe_item.name}. But it is locked!")
+                    
+        
+            # Pickup item, spade eller nyckel
+            elif maybe_item.value >= 0:
                 print(f"You found a {maybe_item.name}, +{maybe_item.value} points.")
                 inventory.append(maybe_item)
                 g.clear(player.pos_x, player.pos_y)
