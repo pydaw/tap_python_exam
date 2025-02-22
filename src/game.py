@@ -32,6 +32,8 @@ def check_inventory(item_name:str):
 
 command = "a"
 loop = 0
+grace_time = 0
+
 # Loopa tills användaren trycker Q eller X.
 while command.casefold() not in ["q", "x"]:
     
@@ -124,6 +126,7 @@ while command.casefold() not in ["q", "x"]:
                     inventory.append(maybe_item)
                     inventory.remove(key)
                     g.clear(player.pos_x, player.pos_y)
+                    grace_time = loop + 5
                 else:
                     print(f"You found a {maybe_item.name}. But it is locked!")
                     
@@ -132,6 +135,7 @@ while command.casefold() not in ["q", "x"]:
                 print(f"You found a {maybe_item.name}, +{maybe_item.value} points.")
                 inventory.append(maybe_item)
                 g.clear(player.pos_x, player.pos_y)
+                grace_time = loop + 5
             
             # Gömd fälla
             else:
@@ -140,8 +144,8 @@ while command.casefold() not in ["q", "x"]:
         else:
             # The floor is lava - för varje steg man går ska man tappa 1 poäng.
             # Tyckte det var lite roligare att man skulle behålla alla poäng för den item som man plockat upp,
-            # där av är den inuti denna else-satsen
-            score -= 1
+            # där av är den inuti denna else-satsen, grace time tills loop är över 5 steg från det att man plockade upp något
+            score -= 1 if loop > grace_time else 0
     
     # Command = Show inventory
     elif command=="i":
