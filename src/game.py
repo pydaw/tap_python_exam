@@ -100,10 +100,14 @@ while command.casefold() not in ["q", "x"]:
 
                 # Kontrollera att saker är i inventory listan
                 for item_original in pickups.pickups: 
-                    if all_original_items_picked_up:  # Loopa inte om item inte finns i inventory-lisan 
+                    
+                    # Loopa inte om item inte finns i inventory-lisan
+                    if all_original_items_picked_up: 
                         for item_inventory in inventory:
                             all_original_items_picked_up = item_inventory == item_original
-                            if all_original_items_picked_up:  # Hoppa ur sista loopen om man hittat item i listan 
+
+                            # Hoppa ur sista loopen om man hittat alla item i listan 
+                            if all_original_items_picked_up:
                                 break
                 
                 if all_original_items_picked_up:
