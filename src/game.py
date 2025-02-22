@@ -43,34 +43,51 @@ while command.casefold() not in ["q", "x"]:
     print_status(g)
 
     command = input("Use WASD to move, Q/X to quit. ")
-    command = command.casefold()[:1]
+    command = command.casefold()[:2]
+    
 
     # Command = Move player
-    if command in "wasd" and len(command) == 1:
+    if command in "w a s d jw ja js jd" and len(command) > 0 and command != "j":
         command_to_movement = {
-            "w": (0, -1),  # Move up
-            "a": (-1, 0),  # Move left
-            "s": (0, 1),   # Move down
-            "d": (1, 0),   # Move right
+            "w":  (0, -1), # Upp
+            "a":  (-1, 0), # Vänster
+            "s":  (0, 1),  # Ner
+            "d":  (1, 0),  # Höger
         }
-        move_x, move_y = command_to_movement[command]
+
+        command_to_jump_movement = {
+            "jw": (0, -2), # Hoppa uppåt
+            "ja": (-2, 0), # Hoppa vänster
+            "js": (0, 2),  # Hoppa neråt
+            "jd": (2, 0),  # Hoppa höger
+        }
+        
+        # Kontroll att flytta kommandot är ett jump kommando 
+        # sparar även om det går att gå ett steg om man hoppar in ex.vis en vägg 
+        move_x, move_y = command_to_movement[command] if len(command) == 1 else command_to_movement[command[1]]
+        jump_move_x, jump_move_y = command_to_jump_movement[command] if len(command) == 2 else (0, 0)
         
         # Kontrollera om spade finns i intentory listan
         shovel = check_inventory("shovel")
         
-        # Kontrollera om spelaren kan flytta sig till punkten
         maybe_item = None
-        if player.can_move(player.pos_x + move_x, player.pos_y + move_y, g):
+        # Kontrollera om spelaren kan flytta sig till punkten genom att hoppa
+        if (abs(jump_move_x) > 0 or abs(jump_move_y) > 0) and player.can_move(player.pos_x + jump_move_x, player.pos_y + jump_move_y, g):
+            maybe_item = g.get(player.pos_x + jump_move_x, player.pos_y + jump_move_y)
+            player.move(jump_move_x, jump_move_y)
+        
+        # Kontrollera om spelaren kan flytta sig till punkten
+        elif player.can_move(player.pos_x + move_x, player.pos_y + move_y, g):
             maybe_item = g.get(player.pos_x + move_x, player.pos_y + move_y)
             player.move(move_x, move_y)
         
         # Möjligt att gå genom en vägg om man har en spade i inventory
+        # Ej möjligt att hoppa, skall gå lite tungt att gräva
         elif shovel:
             print("You have digged a hole through the wall!")
             inventory.remove(shovel)
             player.move(move_x, move_y)
             g.clear(player.pos_x, player.pos_y)
-
 
         # Konrollera om spelarens positionen har ett item att plocka upp
         if isinstance(maybe_item, pickups.Item):
@@ -79,7 +96,7 @@ while command.casefold() not in ["q", "x"]:
             # Exit när alla ursprungliga saker är hämtade 
             if maybe_item.name == "exit":
                 # Utgå från att alla items är hittade (kommer bli False om något item saknas)
-                all_original_items_picked_up = True
+                all_original_items_picked_up = len(inventory) == len(pickups.pickups)
 
                 # Kontrollera att saker är i inventory listan
                 for item_original in pickups.pickups: 
@@ -93,7 +110,7 @@ while command.casefold() not in ["q", "x"]:
                     print("Exit granted!")
                     break
                 else:
-                    print(f"You need more inventories to exit.")
+                    print("You need more inventories to exit.")
 
             # Kista (går att öppna med nyckel)
             elif maybe_item.name == "chest":

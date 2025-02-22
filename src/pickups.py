@@ -1,5 +1,4 @@
 from random import randint, choice
-
 from .grid import Grid
 
 class Item:
