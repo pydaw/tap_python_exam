@@ -170,6 +170,5 @@ while command.casefold() not in ["q", "x"]:
             print("Caught by an enemy = -20 points.")
 
 
-
 # Hit kommer vi när while-loopen slutar
 print("Thank you for playing!")
