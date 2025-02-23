@@ -102,7 +102,7 @@ while command.casefold() not in ["q", "x"]:
             # Exit när alla ursprungliga saker är hämtade 
             if maybe_item.name == "exit":
                 # Utgå från att alla items är hittade (kommer bli False om något item saknas)
-                all_original_items_picked_up = len(inventory) == len(pickups.pickups)
+                all_original_items_picked_up = len(inventory) >= len(pickups.pickups)
 
                 # Kontrollera att saker är i inventory listan
                 for item_original in pickups.pickups: 
@@ -111,7 +111,6 @@ while command.casefold() not in ["q", "x"]:
                     if all_original_items_picked_up: 
                         for item_inventory in inventory:
                             all_original_items_picked_up = item_inventory == item_original
-                            print(f"Compare inventory with original list: {item_inventory.name}=={item_original.name}->{all_original_items_picked_up}")
                             # Hoppa ur sista loopen om man hittat alla item i listan 
                             if all_original_items_picked_up:
                                 break
