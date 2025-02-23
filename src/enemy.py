@@ -16,15 +16,15 @@ class Enemy(Player):
             direction = random.choice(["x", "y"])
             if direction == "x" and self.can_move(self.pos_x+dx, self.pos_y, grid):
                 print(f"Move in {direction} direction!, ({dx}, {0})")
-                grid.clear(self.pos_x, self.pos_y)
+                #grid.clear(self.pos_x, self.pos_y)
                 self.move(dx,0)
-                grid.set(self.pos_x, self.pos_y, self.marker)
+                #grid.set(self.pos_x, self.pos_y, self.marker)
                 
             elif direction == "y" and self.can_move(self.pos_x, self.pos_y+dy, grid):
                 print(f"Move in {direction} direction!, ({0}, {dy})")
-                grid.clear(self.pos_x, self.pos_y)
+                #grid.clear(self.pos_x, self.pos_y)
                 self.move(dx,0)
-                grid.set(self.pos_x, self.pos_y, self.marker)
+                #grid.set(self.pos_x, self.pos_y, self.marker)
                 
         else:
             print("Stay put")
@@ -44,7 +44,7 @@ def add_enemies_to_grid(items:list, grid:Grid):
             if grid.is_empty(x, y):
                 enemy.pos_x = x
                 enemy.pos_y = y
-                grid.set(x, y, enemy.marker)
+                # grid.set(x, y, enemy.marker)
                 break
 
 def randomize(grid):

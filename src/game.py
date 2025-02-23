@@ -18,6 +18,7 @@ pickups.randomize(g)
 
 enemy.enemies[0].marker = "X"
 enemy.randomize(g)
+g.set_enemies(enemy.enemies)
 
 
 # TODO: flytta denna till en annan fil

@@ -1,5 +1,5 @@
 import random
-from .play_fields import play_fields
+from src.play_fields import play_fields
 class Grid:
     """Representerar spelplanen. Du kan ändra standardstorleken och tecknen för olika rutor. """
     width = 36
@@ -13,7 +13,6 @@ class Grid:
         self.data = [[self.empty for y in range(self.width)] for z in range(
             self.height)]
 
-
     def get(self, x, y):
         """Hämta det som finns på en viss position"""
         return self.data[y][x]
@@ -25,6 +24,9 @@ class Grid:
     def set_player(self, player):
         self.player = player
 
+    def set_enemies(self, enemies):
+        self.enemies = enemies
+
     def clear(self, x, y):
         """Ta bort item från position"""
         self.set(x, y, self.empty)
@@ -32,11 +34,34 @@ class Grid:
     def __str__(self):
         """Gör så att vi kan skriva ut spelplanen med print(grid)"""
         xs = ""
+
+        # Ta reda på hur många fienden som finns samt spara objekt.
+        # pga att förhindra att for loopen inte skall hitta index i ifsatsen nedan 
+        number_of_enemies = len(self.enemies)
+        enemy1 = self.enemies[0] if number_of_enemies >= 1 else None
+        enemy2 = self.enemies[1] if number_of_enemies >= 2 else None
+        enemy3 = self.enemies[2] if number_of_enemies >= 3 else None
+
         for y in range(len(self.data)):
             row = self.data[y]
             for x in range(len(row)):
+                
+                # Spelare
                 if x == self.player.pos_x and y == self.player.pos_y:
                     xs += self.player.marker
+                
+                # Fiende1
+                elif  enemy1 is not None and x == enemy1.pos_x and y == enemy1.pos_y:
+                    xs += enemy1.marker
+                
+                # Fiende2
+                elif  enemy2 is not None and x == enemy2.pos_x and y == enemy2.pos_y:
+                    xs += enemy2.marker
+
+                # Fiende3
+                elif  enemy3 is not None and x == enemy3.pos_x and y == enemy3.pos_y:
+                    xs += enemy3.marker
+
                 else:
                     xs += str(row[x])
             xs += "\n"
@@ -57,7 +82,6 @@ class Grid:
         # y-led
         for j in range(y, y + y_length+1):
             self.set(x, j, self.wall)
-
 
     def make_walls(self):
         """Skapa väggar runt hela spelplanen samt på spelplanen"""
@@ -83,7 +107,6 @@ class Grid:
                 y_length = wall["end"]["y"] - wall["start"]["y"]
             )
 
-
     # Används i filen pickups.py
     def get_random_x(self):
         """Slumpa en x-position på spelplanen"""
@@ -93,11 +116,9 @@ class Grid:
         """Slumpa en y-position på spelplanen"""
         return random.randint(0, self.height-1)
 
-
     def is_empty(self, x, y):
         """Returnerar True om det inte finns något på aktuell ruta"""
         return self.get(x, y) == self.empty
-
 
     def is_wall(self, x, y):
         """Returnerar True om det finns vägg på aktuell ruta"""
