@@ -1,11 +1,13 @@
-from .grid import Grid
-from .player import Player
-from . import pickups
+from src.grid import Grid
+from src.player import Player
+from src import enemy
+from src import pickups
 
 player_middle_pos_x = int(Grid.width/2)
 player_middle_pos_y = int(Grid.height/2)
 
 player = Player(player_middle_pos_x, player_middle_pos_y)
+
 score = 0
 inventory = []
 
@@ -13,6 +15,9 @@ g = Grid()
 g.set_player(player)
 g.make_walls()
 pickups.randomize(g)
+
+enemy.enemies[0].marker = "X"
+enemy.randomize(g)
 
 
 # TODO: flytta denna till en annan fil
@@ -47,7 +52,6 @@ while command.casefold() not in ["q", "x"]:
     command = input("Use WASD to move, Q/X to quit. ")
     command = command.casefold()[:2]
     
-
     # Command = Move player
     if command in "w a s d jw ja js jd" and len(command) > 0 and command != "j":
         command_to_movement = {
@@ -155,6 +159,12 @@ while command.casefold() not in ["q", "x"]:
                 print(f" - {item.name}")
         else:
             print("No items found yet!") 
+    
+    i = 0
+    for _enemy in enemy.enemies:
+        i += 1
+        print(f"enemy #{i}")
+        _enemy.move_toward_player(g, player)
 
 
 # Hit kommer vi när while-loopen slutar

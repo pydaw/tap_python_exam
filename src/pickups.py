@@ -1,5 +1,5 @@
 from random import randint, choice
-from .grid import Grid
+from src.grid import Grid
 
 class Item:
     """Representerar saker man kan plocka upp."""
