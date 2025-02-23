@@ -34,14 +34,7 @@ class Grid:
     def __str__(self):
         """Gör så att vi kan skriva ut spelplanen med print(grid)"""
         xs = ""
-
-        # Ta reda på hur många fienden som finns samt spara objekt.
-        # pga att förhindra att for loopen inte skall hitta index i ifsatsen nedan 
-        number_of_enemies = len(self.enemies)
-        enemy1 = self.enemies[0] if number_of_enemies >= 1 else None
-        enemy2 = self.enemies[1] if number_of_enemies >= 2 else None
-        enemy3 = self.enemies[2] if number_of_enemies >= 3 else None
-
+    
         for y in range(len(self.data)):
             row = self.data[y]
             for x in range(len(row)):
@@ -51,16 +44,16 @@ class Grid:
                     xs += self.player.marker
                 
                 # Fiende1
-                elif  enemy1 is not None and x == enemy1.pos_x and y == enemy1.pos_y:
-                    xs += enemy1.marker
+                elif len(self.enemies) >= 1 and x == self.enemies[0].pos_x and y == self.enemies[0].pos_y:
+                    xs += self.enemies[0].marker
                 
                 # Fiende2
-                elif  enemy2 is not None and x == enemy2.pos_x and y == enemy2.pos_y:
-                    xs += enemy2.marker
+                elif len(self.enemies) >= 2 and x == self.enemies[1].pos_x and y == self.enemies[1].pos_y:
+                    xs += self.enemies[1].marker
 
                 # Fiende3
-                elif  enemy3 is not None and x == enemy3.pos_x and y == enemy3.pos_y:
-                    xs += enemy3.marker
+                elif len(self.enemies) >= 3 and x == self.enemies[2].pos_x and y == self.enemies[2].pos_y:
+                    xs += self.enemies[2].marker
 
                 else:
                     xs += str(row[x])

@@ -16,7 +16,6 @@ g.set_player(player)
 g.make_walls()
 pickups.randomize(g)
 
-enemy.enemies[0].marker = "X"
 enemy.randomize(g)
 g.set_enemies(enemy.enemies)
 
@@ -112,7 +111,7 @@ while command.casefold() not in ["q", "x"]:
                     if all_original_items_picked_up: 
                         for item_inventory in inventory:
                             all_original_items_picked_up = item_inventory == item_original
-
+                            print(f"Compare inventory with original list: {item_inventory.name}=={item_original.name}->{all_original_items_picked_up}")
                             # Hoppa ur sista loopen om man hittat alla item i listan 
                             if all_original_items_picked_up:
                                 break
@@ -164,8 +163,13 @@ while command.casefold() not in ["q", "x"]:
     i = 0
     for _enemy in enemy.enemies:
         i += 1
-        print(f"enemy #{i}")
         _enemy.move_toward_player(g, player)
+        
+        # Om man fångar spelaren så blir man av med 20p
+        if _enemy.caught_player(player):
+            score -= 20
+            print("Caught by an enemy = -20 points.")
+
 
 
 # Hit kommer vi när while-loopen slutar
