@@ -41,6 +41,7 @@ def check_inventory(item_name:str):
 command = "a"
 loop = 0
 grace_time = 0
+trap_activated = False
 
 # Loopa tills användaren trycker Q eller X.
 while command.casefold() not in ["q", "x"]:
@@ -84,7 +85,7 @@ while command.casefold() not in ["q", "x"]:
         if (abs(jump_move_x) > 0 or abs(jump_move_y) > 0) and player.can_move(player.pos_x + jump_move_x, player.pos_y + jump_move_y, g):
             maybe_item = g.get(player.pos_x + jump_move_x, player.pos_y + jump_move_y)
             player.move(jump_move_x, jump_move_y)
-        
+            
         # Kontrollera om spelaren kan flytta sig till punkten
         elif player.can_move(player.pos_x + move_x, player.pos_y + move_y, g):
             maybe_item = g.get(player.pos_x + move_x, player.pos_y + move_y)
@@ -137,15 +138,22 @@ while command.casefold() not in ["q", "x"]:
                     print(f"You found a {maybe_item.name}. But it is locked!")
                     
             # Pickup item, spade eller nyckel
-            elif maybe_item.value >= 0:
+            elif maybe_item.value >= 0 and maybe_item not in pickups.traps:
                 print(f"You found a {maybe_item.name}, +{maybe_item.value} points.")
                 inventory.append(maybe_item)
                 g.clear(player.pos_x, player.pos_y)
                 grace_time = loop + 5
-            
+
+            # Desarmerad fälla
+            elif maybe_item.value == 0 and maybe_item in pickups.traps:
+                print(f"You found a disarmed {maybe_item.name}, {maybe_item.value} points.")
+                inventory.append(maybe_item)
+                
             # Gömd fälla
             else:
                 print(f"You found a {maybe_item.name}, {maybe_item.value} points.")
+                trap_pos_x = player.pos_x
+                trap_pos_y = player.pos_y
         
         else:
             # The floor is lava - för varje steg man går ska man tappa 1 poäng.
@@ -168,7 +176,28 @@ while command.casefold() not in ["q", "x"]:
         this_bomb = Bomb(player.pos_x, player.pos_y, loop + 3)
         bomb.bombs.append(this_bomb)
         g.set(this_bomb.pos_x, this_bomb.pos_y, this_bomb)
-        
+
+    # Command = Desamera fälla 
+    elif command == "t":
+        # Kontrollera att spelaren står på fällan om man skall desarmera fällan
+        if trap_pos_x == player.pos_x and trap_pos_y == player.pos_y:
+            print("Trap disarmed")
+
+            # Ge tillbaka poäng
+            score += 10
+
+            # Gör fällan obrukbar
+            if isinstance(maybe_item, pickups.Item):    
+                maybe_item.value = 0
+
+            # Radera positionen för fällan
+            trap_pos_x = None
+            trap_pos_y = None
+            
+        else:
+            print("Could't find any trap to disarm!")
+
+
     # Kontrollera om någon bomb brisserar, radera allt runt bomben    
     for this_bomb in bomb.bombs:
         if loop == this_bomb.detonation_time:
@@ -184,13 +213,9 @@ while command.casefold() not in ["q", "x"]:
             for _enemy in enemy.enemies:
                 if abs(this_bomb.pos_x - _enemy.pos_x) <= 1 and abs(this_bomb.pos_y - _enemy.pos_y) <= 1:
                     enemy.enemies.remove(_enemy)
-
-            
+        
     # Flytta fienden
-    i = 0
     for _enemy in enemy.enemies:
-        i += 1
-        print(f"enemy #{i}")
         _enemy.move_toward_player(g, player)
         
         # Om man fångar spelaren så blir man av med 20p
