@@ -1,7 +1,10 @@
-from src.grid import Grid
-from src.player import Player
+from src import bomb
 from src import enemy
 from src import pickups
+
+from src.bomb import Bomb
+from src.grid import Grid
+from src.player import Player
 
 player_middle_pos_x = int(Grid.width/2)
 player_middle_pos_y = int(Grid.height/2)
@@ -52,7 +55,7 @@ while command.casefold() not in ["q", "x"]:
     command = input("Use WASD to move, Q/X to quit. ")
     command = command.casefold()[:2]
     
-    # Command = Move player
+    # Command = Flytta spelare
     if command in "w a s d jw ja js jd" and len(command) > 0 and command != "j":
         command_to_movement = {
             "w":  (0, -1), # Upp
@@ -150,7 +153,7 @@ while command.casefold() not in ["q", "x"]:
             # där av är den inuti denna else-satsen, grace time tills loop är över 5 steg från det att man plockade upp något
             score -= 1 if loop > grace_time else 0
     
-    # Command = Show inventory
+    # Command = Visa inventory
     elif command=="i":
         if len(inventory) > 0:
             print("Items found:")
@@ -159,15 +162,41 @@ while command.casefold() not in ["q", "x"]:
         else:
             print("No items found yet!") 
     
+    # Command = Placera ut en bomb
+    elif command=="b":
+        print("Bomb have been placed, run!")
+        this_bomb = Bomb(player.pos_x, player.pos_y, loop + 3)
+        bomb.bombs.append(this_bomb)
+        g.set(this_bomb.pos_x, this_bomb.pos_y, this_bomb)
+        
+    # Kontrollera om någon bomb brisserar, radera allt runt bomben    
+    for this_bomb in bomb.bombs:
+        if loop == this_bomb.detonation_time:
+            this_bomb.detonation(g)
+            print("BOOM!!!")
+
+            # Spelaren fölorar 100poäng om man står i explosionsområdet
+            if abs(this_bomb.pos_x - player.pos_x) <= 1 and abs(this_bomb.pos_y - player.pos_y) <= 1:
+                print("You were in the blast, -100 points.")
+                score -= 100
+            
+            # Radera fiende om de finns i explosionsområdet
+            for _enemy in enemy.enemies:
+                if abs(this_bomb.pos_x - _enemy.pos_x) <= 1 and abs(this_bomb.pos_y - _enemy.pos_y) <= 1:
+                    enemy.enemies.remove(_enemy)
+
+            
+    # Flytta fienden
     i = 0
     for _enemy in enemy.enemies:
         i += 1
+        print(f"enemy #{i}")
         _enemy.move_toward_player(g, player)
         
         # Om man fångar spelaren så blir man av med 20p
         if _enemy.caught_player(player):
             score -= 20
-            print("Caught by an enemy = -20 points.")
+            print("Caught by an enemy, -20 points.")
 
 
 # Hit kommer vi när while-loopen slutar
