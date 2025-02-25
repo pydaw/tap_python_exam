@@ -17,6 +17,10 @@ class Player:
         self.pos_y += dy
 
     def can_move(self, x, y, grid:Grid):
+        """
+        Metod för att kontrollera att det är möjligt att flytta spelaren 
+        till specificerad position i spelfält
+        """
         dx = x - self.pos_x
         dy = y - self.pos_y
         
