@@ -23,7 +23,6 @@ enemy.randomize(g)
 g.set_enemies(enemy.enemies)
 
 
-# TODO: flytta denna till en annan fil
 def print_status(game_grid):
     """Visa spelvärlden och antal poäng."""
     print("--------------------------------------")

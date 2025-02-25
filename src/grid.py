@@ -22,9 +22,11 @@ class Grid:
         self.data[y][x] = value
 
     def set_player(self, player):
+        """Hämtar in objektet player i klassen, används till att skriva ut spelarens position"""
         self.player = player
 
     def set_enemies(self, enemies):
+        """Hämtar in listan enemies i klassen, används till att skriva ut fiendens positioner"""
         self.enemies = enemies
 
     def clear(self, x, y):

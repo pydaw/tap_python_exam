@@ -26,6 +26,7 @@ keys = [key_item] * number_of_chests
 exit = [Item("exit",value=0, symbol="E")]
 
 def add_items_to_grid(items:list, grid:Grid):
+    """Lägger till en lista med saker på spelplanen på en slumpmässig position"""
     for item in items:
         while True:
             # slumpa en position tills vi hittar en som är ledig
@@ -37,10 +38,12 @@ def add_items_to_grid(items:list, grid:Grid):
 
 
 def add_random_pickup(grid):
+    "Lägger till en slumpmässig på en sak ur listan pickups på spelplanen på en slumpmässig position"
     item = choice(pickups)
     add_items_to_grid([item], grid)
 
 def randomize(grid):
+    "Lägger ut listor med saker på spelplanen på en slumpmässig position"
     add_items_to_grid(pickups, grid)
     add_items_to_grid(traps, grid)
     add_items_to_grid(shovels, grid)
