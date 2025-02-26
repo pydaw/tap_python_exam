@@ -31,7 +31,7 @@ for i in range(number_of_enemies):
     enemies.append(Enemy(0,0))
 
 def add_enemies_to_grid(items:list, grid:Grid):
-    for enemy in enemies:
+    for enemy in items:
         while True:
             # slumpa en position tills vi hittar en som är ledig
             x = grid.get_random_x()
