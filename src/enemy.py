@@ -38,7 +38,7 @@ def add_enemies_to_grid(items:list, grid:Grid):
     Lägger till fienden på spelplanen på slumpmässig position.
     Används internt i enemy.py för att slippa anrop med listan enmemies.
     """
-    for enemy in enemies:
+    for enemy in items:
         while True:
             # slumpa en position tills vi hittar en som är ledig
             x = grid.get_random_x()
