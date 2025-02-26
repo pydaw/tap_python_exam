@@ -17,6 +17,13 @@ class Player:
         self.pos_y += dy
 
     def can_move(self, x, y, grid:Grid):
+        """
+        Kontrollera att det är möjligt att flytta spelaren 
+        till angiven position i spelfält.
+
+        Returnerar True om möjligt att flytta annars returneras
+        False om det finns en vägg på angiven position.
+        """
         dx = x - self.pos_x
         dy = y - self.pos_y
         
