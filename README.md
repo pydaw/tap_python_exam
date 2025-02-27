@@ -27,8 +27,10 @@ Main branchen är samma som Version3 branschen.
 - R. Ett nytt kommando ("T" för trap) för att desarmera fällor.
 
 
-# Tests
-Test result
+# Test
+Enhetstester ligger i mappen "test".
+
+Testresultat
 ```bash
 ============================= test session starts =============================
 platform win32 -- Python 3.10.1, pytest-8.3.4, pluggy-1.5.0
