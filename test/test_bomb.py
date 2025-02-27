@@ -8,6 +8,12 @@ def test_init_and_properties():
     assert bomb.pos_y == 2
     assert bomb.detonation_time == 3
 
+def test_str():
+    bomb = Bomb(1,1,10)
+    actual = str(bomb)
+    expected = bomb.symbol
+    assert actual == expected
+
 def test_detonation():
     grid = Grid()
     bomb = Bomb(1,1,10)

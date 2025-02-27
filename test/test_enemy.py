@@ -1,6 +1,4 @@
-import random
-
-import src.enemy as enemy
+import src.enemy
 from src.enemy import Enemy
 from src.player import Player
 from src.grid import Grid
@@ -16,7 +14,7 @@ def test_init():
 
     actual = enemy.pos_y
     expected = 200
-    assert actual == expected
+    assert actual == expected    
 
 def test_move():
     enemy = Enemy(100, 200)
@@ -63,7 +61,7 @@ def test_move_toward_player():
     # Kontrollerar om fienden kommer närmare spelare i x o y led efter några drag
     assert  diff_x > diff_after_moves_x and diff_y > diff_after_moves_y
     
-def test_caught_playe():
+def test_caught_player():
     grid = Grid()
     player = Player(3,3)
     enemy = Enemy(1,1)
@@ -76,5 +74,3 @@ def test_caught_playe():
     actual = enemy.caught_player(player)
     expected = True
     assert actual == expected
-
-# TODO: Lägg till tester på att lägga till fiender på spelplan

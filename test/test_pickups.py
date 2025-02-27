@@ -31,11 +31,29 @@ def test_item_init():
     expected = "X"
     assert actual == expected
 
-
-# TODO: Gör klar random funktionerna
-def test_add_random_pickup():
+def test_str():
+    item1 = Item("test1")
+    actual = str(item1)
+    expected = "?"
+    assert actual == expected
+    
+    item2 = Item("test2", 20, "X")
+    actual = str(item2)
+    expected = "X"
+    assert actual == expected
+    
+def test_items_to_grid():
     grid = Grid()
-    assert True
+    item_list = [Item("test")] * 10
+    
+    src.pickups.add_items_to_grid(item_list, grid)
 
-def test_randomize():
-    pass
+    # Kontrollera att antal pickups det finns i data
+    number_of_pickup_element = 0
+    for y in range(grid.width):
+        for x in range(grid.height):
+            number_of_pickup_element += 1 if isinstance(grid.data[x][y], src.pickups.Item) else 0
+    
+    actual = number_of_pickup_element
+    expected = 10
+    assert actual == expected
